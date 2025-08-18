@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>All Links Extractor</title>
+  <link href="/css/bootstrap.min.css" rel="stylesheet" />
+  <style>
+    body {
+      width: 320px;
+      background-color: var(--bg);
+      color: var(--text);
+    }
+
+    :root {
+      --bg: #f8f9fa;
+      --text: #212529;
+    }
+
+    .dark-mode {
+      --bg: #212529;
+      --text: #f8f9fa;
+    }
+
+    .dark-mode .nav-tabs .nav-link.active {
+      background-color: #343a40;
+      color: #fff;
+    }
+
+    .dark-mode .btn-outline-primary,
+    .dark-mode .btn-outline-secondary {
+      color: #fff;
+      border-color: #aaa;
+    }
+
+    .dark-mode .bg-white {
+      background-color: #343a40 !important;
+      color: #fff;
+    }
+
+    .dark-mode .list-group-item {
+      background-color: #343a40;
+      color: #fff;
+      border-color: #444;
+    }
+
+    .tab-content {
+      padding-top: 1rem;
+    }
+
+    .history-entry {
+      font-size: 0.85rem;
+      margin-bottom: 0.25rem;
+    }
+  </style>
+</head>
+<body class="p-2">
+  <ul class="nav nav-tabs" id="popupTabs" role="tablist">
+    <li class="nav-item" role="presentation">
+      <button class="nav-link active" id="extract-tab" data-bs-toggle="tab" data-bs-target="#extract" type="button" role="tab">
+        Extract
+      </button>
+    </li>
+    <li class="nav-item" role="presentation">
+      <button class="nav-link" id="history-tab" data-bs-toggle="tab" data-bs-target="#history" type="button" role="tab">
+        History
+      </button>
+    </li>
+  </ul>
+
+  <div class="tab-content" id="popupTabContent">
+    <div class="tab-pane fade show active" id="extract" role="tabpanel">
+      <div class="text-center">
+        <h5 class="my-2">🔗 All Links Extractor</h5>
+        <p>Total Links Found: <span id="linkCount" class="badge bg-secondary">0</span></p>
+        <div class="d-grid gap-2 mb-2">
+          <button id="extractLinks" class="btn btn-primary">Extract Links</button>
+          <button id="openResults" class="btn btn-success">View Extracted Links</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="tab-pane fade" id="history" role="tabpanel">
+      <div>
+        <h6>History</h6>
+        <div id="historyContainer" class="mb-2" style="max-height: 150px; overflow-y: auto;"></div>
+        <button id="saveHistory" class="btn btn-sm btn-outline-secondary w-100 mb-2">💾 Save Current Links to History</button>
+        <button id="clearHistory" class="btn btn-sm btn-danger w-100">🗑 Clear History</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-check form-switch mt-3 text-center">
+    <input class="form-check-input" type="checkbox" id="darkModeToggle">
+    <label class="form-check-label" for="darkModeToggle">🌙 Dark Mode</label>
+  </div>
+
+  <script src="js/bootstrap.bundle.min.js"></script>
+  <script src="/js/popup.js"></script>
+</body>
+</html>
