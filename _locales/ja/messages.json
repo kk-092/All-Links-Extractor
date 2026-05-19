@@ -1,0 +1,17 @@
+{
+  "appName": {
+    "message": "All Links Extractor - SEO Link Audit Tool"
+  },
+  "appDescription": {
+    "message": "SEO向けにリンクを抽出、監査、チェック、クロール、保存、レポート出力できます。"
+  },
+  "commandExtractCurrentTab": {
+    "message": "現在のタブからリンクを抽出"
+  },
+  "commandOpenAudit": {
+    "message": "リンク監査ページを開く"
+  },
+  "commandExtractSelectedText": {
+    "message": "選択したテキストからリンクを抽出"
+  }
+}

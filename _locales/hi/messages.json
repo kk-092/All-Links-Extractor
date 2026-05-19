@@ -1,0 +1,17 @@
+{
+  "appName": {
+    "message": "All Links Extractor - SEO Link Audit Tool"
+  },
+  "appDescription": {
+    "message": "SEO के लिए लिंक निकालें, ऑडिट करें, जांचें, क्रॉल करें, सेव करें और रिपोर्ट व एक्सपोर्ट बनाएं।"
+  },
+  "commandExtractCurrentTab": {
+    "message": "मौजूदा टैब से लिंक निकालें"
+  },
+  "commandOpenAudit": {
+    "message": "लिंक ऑडिट पेज खोलें"
+  },
+  "commandExtractSelectedText": {
+    "message": "चुने हुए टेक्स्ट से लिंक निकालें"
+  }
+}

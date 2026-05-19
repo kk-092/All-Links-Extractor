@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Link History</title>
+  <link href="/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+  <header class="app-header">
+    <div class="header-main">
+      <div class="header-copy">
+        <div class="page-title-lockup">
+          <img class="page-logo" src="/icons/icon48.png" alt="All Links Extractor logo">
+          <div>
+            <span class="header-kicker">Saved Sessions</span>
+            <h1>History</h1>
+          </div>
+        </div>
+        <p class="source-summary">Every extraction is saved automatically.</p>
+      </div>
+      <div class="header-actions">
+        <a class="btn btn-outline-secondary page-nav-link" href="/result.html" title="Open the current audit workspace." aria-label="Open audit page">Audit</a>
+        <a class="btn btn-outline-secondary page-nav-link" href="/settings.html" title="Change theme, defaults, and page behavior." aria-label="Open extension settings">Settings</a>
+        <a class="btn btn-outline-secondary page-nav-link" href="/privacy.html" title="View privacy and permission details." aria-label="Open privacy and permissions page">Privacy</a>
+        <button id="clearHistory" class="btn btn-outline-danger" title="Delete all saved extraction sessions." aria-label="Clear all saved history">Clear All</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="app-shell history-shell">
+    <section class="history-overview" aria-label="History overview">
+      <div class="history-stat">
+        <span>Sessions</span>
+        <strong id="historySessionCount">0</strong>
+      </div>
+      <div class="history-stat">
+        <span>Saved Links</span>
+        <strong id="historyLinkCount">0</strong>
+      </div>
+      <div class="history-stat">
+        <span>Last Capture</span>
+        <strong id="historyLastCapture">Never</strong>
+      </div>
+    </section>
+
+    <section class="toolbar history-toolbar" aria-label="History controls">
+      <div class="search-row">
+        <label class="control-label" for="historySearch">Search History</label>
+        <input id="historySearch" class="form-control" type="search" placeholder="Search by name, source URL, or date" title="Search saved sessions by name, URL, or capture date.">
+      </div>
+    </section>
+
+    <div id="emptyHistory" class="alert alert-secondary d-none" role="status">
+      <strong>No saved sessions yet.</strong>
+      <span>Run an extraction from the popup and it will appear here automatically. Use meaningful names later with Rename.</span>
+    </div>
+    <div id="historyContainer" class="history-page-list"></div>
+  </main>
+
+  <script src="/js/i18n.js"></script>
+  <script src="/js/history.js"></script>
+</body>
+</html>

@@ -6,96 +6,625 @@
   <title>All Links Extractor</title>
   <link href="/css/bootstrap.min.css" rel="stylesheet" />
   <style>
+    :root {
+      --bg: #f3f6fa;
+      --panel: rgba(255, 255, 255, 0.92);
+      --panel-solid: #ffffff;
+      --panel-soft: #eef3f8;
+      --text: #14212d;
+      --muted: #647484;
+      --border: rgba(93, 111, 129, 0.18);
+      --shadow: 0 18px 46px rgba(25, 39, 53, 0.14);
+      --accent: #0f8a7e;
+      --accent-strong: #0b625b;
+      --accent-soft: #dff7f2;
+    }
+
+    :root[data-theme="dark"] {
+      --bg: #121a23;
+      --panel: rgba(27, 38, 50, 0.94);
+      --panel-solid: #1b2632;
+      --panel-soft: #243342;
+      --text: #f4f8fb;
+      --muted: #c1ced8;
+      --border: rgba(205, 219, 231, 0.16);
+      --shadow: 0 18px 52px rgba(0, 0, 0, 0.34);
+      --accent: #24c7b8;
+      --accent-strong: #7deee4;
+      --accent-soft: rgba(36, 199, 184, 0.16);
+    }
+
+    :root[data-accent="indigo"] {
+      --accent: #5b57e8;
+      --accent-strong: #3730a3;
+      --accent-soft: #e7e7ff;
+    }
+
+    :root[data-theme="dark"][data-accent="indigo"] {
+      --accent: #8b87ff;
+      --accent-strong: #c8c6ff;
+      --accent-soft: rgba(139, 135, 255, 0.17);
+    }
+
+    :root[data-accent="rose"] {
+      --accent: #d93661;
+      --accent-strong: #9f1239;
+      --accent-soft: #ffe8ee;
+    }
+
+    :root[data-theme="dark"][data-accent="rose"] {
+      --accent: #ff7f9d;
+      --accent-strong: #ffc1d0;
+      --accent-soft: rgba(255, 127, 157, 0.16);
+    }
+
+    :root[data-accent="amber"] {
+      --accent: #b77910;
+      --accent-strong: #7c4d06;
+      --accent-soft: #fff0cc;
+    }
+
+    :root[data-theme="dark"][data-accent="amber"] {
+      --accent: #f2b84b;
+      --accent-strong: #ffe1a3;
+      --accent-soft: rgba(242, 184, 75, 0.16);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      background: var(--bg);
+      margin: 0;
+      min-height: 100%;
+      padding: 0;
+      width: 380px;
+    }
+
     body {
-      width: 320px;
-      background-color: var(--bg);
+      background:
+        radial-gradient(circle at 18% -12%, color-mix(in srgb, var(--accent-soft), transparent 12%), transparent 38%),
+        linear-gradient(180deg, #f8fbfd 0%, var(--bg) 100%),
+        var(--bg);
+      color: var(--text);
+      -webkit-font-smoothing: antialiased;
+      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI Variable", "Segoe UI", "Noto Sans", Arial, sans-serif;
+      font-weight: 450;
+      margin: 0;
+      min-height: 100vh;
+      overflow: hidden;
+      text-rendering: optimizeLegibility;
+      width: 380px;
+    }
+
+    body::before {
+      background:
+        radial-gradient(circle at 18% -12%, color-mix(in srgb, var(--accent-soft), transparent 12%), transparent 38%),
+        linear-gradient(180deg, #f8fbfd 0%, var(--bg) 100%),
+        var(--bg);
+      content: "";
+      inset: -12px;
+      pointer-events: none;
+      position: fixed;
+      z-index: -1;
+    }
+
+    :root[data-theme="dark"] html {
+      background: var(--bg);
+    }
+
+    :root[data-theme="dark"] body {
+      background:
+        radial-gradient(circle at 18% -12%, color-mix(in srgb, var(--accent), transparent 76%), transparent 38%),
+        linear-gradient(180deg, #182331 0%, var(--bg) 100%),
+        var(--bg);
+    }
+
+    :root[data-theme="dark"] body::before {
+      background:
+        radial-gradient(circle at 18% -12%, color-mix(in srgb, var(--accent), transparent 76%), transparent 38%),
+        linear-gradient(180deg, #182331 0%, var(--bg) 100%),
+        var(--bg);
+    }
+
+    button {
+      font: inherit;
+    }
+
+    .popup-shell {
+      padding: 14px;
+    }
+
+    .brand-card,
+    .panel {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(18px);
+    }
+
+    .brand-card {
+      animation: popupFadeUp 340ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+      border-radius: 22px;
+      padding: 16px;
+    }
+
+    .brand-top {
+      align-items: center;
+      display: flex;
+      gap: 12px;
+      justify-content: space-between;
+    }
+
+    .brand-lockup {
+      align-items: center;
+      display: flex;
+      gap: 10px;
+      min-width: 0;
+    }
+
+    .brand-mark {
+      align-items: center;
+      background: var(--panel-solid);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      display: inline-flex;
+      height: 44px;
+      justify-content: center;
+      overflow: hidden;
+      width: 44px;
+    }
+
+    .brand-mark img {
+      display: block;
+      height: 34px;
+      width: 34px;
+    }
+
+    .eyebrow {
+      color: var(--muted);
+      display: block;
+      font-size: 11px;
+      font-weight: 720;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .brand-title {
+      color: var(--text);
+      font-size: 18px;
+      font-weight: 760;
+      line-height: 1.15;
+      margin: 0;
+    }
+
+    .status-pill {
+      align-items: center;
+      animation: popupPop 260ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+      background: var(--accent-soft);
+      border: 1px solid color-mix(in srgb, var(--accent), transparent 62%);
+      border-radius: 999px;
+      color: var(--accent-strong);
+      display: inline-flex;
+      font-size: 12px;
+      font-weight: 700;
+      gap: 7px;
+      padding: 7px 10px;
+      white-space: nowrap;
+    }
+
+    .status-pill.is-loading::before {
+      animation: spin 0.82s linear infinite;
+      border: 2px solid color-mix(in srgb, var(--accent), transparent 65%);
+      border-top-color: var(--accent);
+      border-radius: 999px;
+      content: "";
+      display: inline-block;
+      height: 13px;
+      width: 13px;
+    }
+
+    :root[data-theme="dark"] .status-pill {
+      color: var(--accent-strong);
+    }
+
+    .metric-board {
+      display: grid;
+      gap: 8px;
+      grid-template-columns: 1fr 1fr;
+      margin-top: 14px;
+    }
+
+    .metric-card {
+      animation: popupScaleIn 280ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+      background: var(--panel-solid);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      min-width: 0;
+      padding: 10px;
+    }
+
+    .metric-card.primary {
+      grid-row: span 2;
+    }
+
+    .metric-card:nth-child(2) {
+      animation-delay: 35ms;
+    }
+
+    .metric-card:nth-child(3) {
+      animation-delay: 70ms;
+    }
+
+    .metric-label {
+      color: var(--muted);
+      display: block;
+      font-size: 11px;
+      font-weight: 720;
+      margin-bottom: 6px;
+      text-transform: uppercase;
+    }
+
+    .metric-value {
+      color: var(--text);
+      display: block;
+      font-size: 13px;
+      font-weight: 650;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .metric-card.primary .metric-value {
+      color: var(--accent);
+      font-size: 38px;
+      font-weight: 820;
+      line-height: 1;
+    }
+
+    :root[data-theme="dark"] .metric-card.primary .metric-value {
+      color: #93fff0;
+    }
+
+    .source-line {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.4;
+      margin: 12px 0 0;
+      max-height: 34px;
+      overflow: hidden;
+    }
+
+    .panel {
+      animation: popupFadeUp 340ms cubic-bezier(0.2, 0.8, 0.2, 1) 80ms both;
+      border-radius: 18px;
+      margin-top: 12px;
+      padding: 12px;
+    }
+
+    .action-grid {
+      display: grid;
+      gap: 10px;
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .popup-action-button {
+      align-items: center;
+      border-radius: 14px;
+      display: inline-flex;
+      font-weight: 680;
+      justify-content: center;
+      min-height: 46px;
+      padding: 10px 12px;
+      transition: background-color 160ms ease, border-color 160ms ease, box-shadow 180ms ease, color 160ms ease, transform 180ms cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+
+    .btn-accent {
+      background: var(--accent);
+      border: 1px solid var(--accent);
+      color: #ffffff;
+    }
+
+    .btn-quiet {
+      background: var(--panel-solid);
+      border: 1px solid var(--border);
       color: var(--text);
     }
 
-    :root {
-      --bg: #f8f9fa;
-      --text: #212529;
+    .popup-action-button:hover,
+    .popup-action-button:focus-visible,
+    .quick-button:hover,
+    .quick-button:focus-visible {
+      transform: translateY(-1px);
     }
 
-    .dark-mode {
-      --bg: #212529;
-      --text: #f8f9fa;
+    .popup-action-button:active,
+    .quick-button:active {
+      transform: translateY(0);
     }
 
-    .dark-mode .nav-tabs .nav-link.active {
-      background-color: #343a40;
-      color: #fff;
+    .btn-accent:hover {
+      background: var(--accent-strong);
+      border-color: var(--accent-strong);
     }
 
-    .dark-mode .btn-outline-primary,
-    .dark-mode .btn-outline-secondary {
-      color: #fff;
-      border-color: #aaa;
+    .btn-quiet:hover,
+    .quick-button:hover {
+      background: var(--panel-soft);
+      border-color: color-mix(in srgb, var(--accent), transparent 48%);
+      color: var(--accent-strong);
     }
 
-    .dark-mode .bg-white {
-      background-color: #343a40 !important;
-      color: #fff;
+    :root[data-theme="dark"] .btn-quiet:hover,
+    :root[data-theme="dark"] .quick-button:hover {
+      color: #d5fff8;
     }
 
-    .dark-mode .list-group-item {
-      background-color: #343a40;
-      color: #fff;
-      border-color: #444;
+    .quick-grid {
+      display: grid;
+      gap: 8px;
+      grid-template-columns: 1fr 1fr;
+      margin-top: 10px;
     }
 
-    .tab-content {
-      padding-top: 1rem;
+    .quick-button {
+      background: var(--panel-soft);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      color: var(--text);
+      font-size: 13px;
+      font-weight: 650;
+      min-height: 42px;
+      transition: background-color 160ms ease, border-color 160ms ease, box-shadow 180ms ease, color 160ms ease, transform 180ms cubic-bezier(0.2, 0.8, 0.2, 1);
     }
 
-    .history-entry {
-      font-size: 0.85rem;
-      margin-bottom: 0.25rem;
+    .popup-action-button.is-busy,
+    .quick-button.is-busy {
+      cursor: wait;
+      opacity: 0.78;
+      pointer-events: none;
+      transform: none;
+    }
+
+    .popup-action-button.is-busy::before,
+    .quick-button.is-busy::before {
+      animation: spin 0.82s linear infinite;
+      border: 2px solid rgba(255, 255, 255, 0.55);
+      border-top-color: #ffffff;
+      border-radius: 999px;
+      content: "";
+      display: inline-block;
+      height: 14px;
+      margin-right: 7px;
+      vertical-align: -2px;
+      width: 14px;
+    }
+
+    .quick-button.is-busy::before {
+      border-color: color-mix(in srgb, var(--accent), transparent 65%);
+      border-top-color: var(--accent);
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    @keyframes popupFadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes popupScaleIn {
+      from {
+        opacity: 0;
+        transform: scale(0.985);
+      }
+
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    @keyframes popupPop {
+      from {
+        opacity: 0;
+        transform: scale(0.96);
+      }
+
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    .setting-hint {
+      color: var(--muted);
+      display: block;
+      font-size: 12px;
+      font-weight: 500;
+      line-height: 1.35;
+      margin-top: 8px;
+    }
+
+    .popup-link-row {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      margin-top: 10px;
+    }
+
+    .popup-text-link {
+      background: transparent;
+      border: 0;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 650;
+      min-height: auto;
+      padding: 0;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+
+    .popup-text-link:hover,
+    .popup-text-link:focus-visible {
+      color: var(--accent-strong);
+    }
+
+    .toast-stack {
+      bottom: 14px;
+      display: grid;
+      gap: 8px;
+      left: 14px;
+      pointer-events: none;
+      position: fixed;
+      right: 14px;
+      z-index: 50;
+    }
+
+    .toast-message {
+      animation: popupFadeUp 220ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+      background: var(--panel-solid);
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--accent);
+      border-radius: 14px;
+      box-shadow: var(--shadow);
+      color: var(--text);
+      font-size: 13px;
+      font-weight: 650;
+      padding: 10px 12px;
+    }
+
+    .app-tooltip {
+      background: linear-gradient(145deg, color-mix(in srgb, var(--panel-solid), #ffffff 10%), var(--panel));
+      border: 1px solid color-mix(in srgb, var(--accent), transparent 55%);
+      border-radius: 10px;
+      box-shadow: var(--shadow);
+      color: var(--text);
+      font-size: 12px;
+      font-weight: 650;
+      left: 0;
+      line-height: 1.35;
+      max-width: min(290px, calc(100vw - 20px));
+      opacity: 0;
+      padding: 9px 11px;
+      pointer-events: none;
+      position: fixed;
+      top: 0;
+      transform: translateY(3px) scale(0.98);
+      transition: opacity 120ms ease, transform 120ms ease;
+      z-index: 9999;
+    }
+
+    .app-tooltip::after {
+      background: inherit;
+      border: inherit;
+      content: "";
+      height: 10px;
+      left: 50%;
+      position: absolute;
+      transform: translateX(-50%) rotate(45deg);
+      width: 10px;
+      z-index: -1;
+    }
+
+    .app-tooltip[data-placement="top"]::after {
+      bottom: -5px;
+      border-left: 0;
+      border-top: 0;
+    }
+
+    .app-tooltip[data-placement="bottom"]::after {
+      top: -5px;
+      border-bottom: 0;
+      border-right: 0;
+    }
+
+    .app-tooltip[data-visible="true"] {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+
+    :root[data-theme="dark"] .app-tooltip {
+      background: linear-gradient(145deg, color-mix(in srgb, var(--panel-solid), #ffffff 4%), var(--panel));
+      border-color: color-mix(in srgb, var(--accent), transparent 42%);
+      box-shadow: 0 18px 44px rgba(0, 0, 0, 0.44);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        animation-duration: 1ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 1ms !important;
+      }
     }
   </style>
 </head>
-<body class="p-2">
-  <ul class="nav nav-tabs" id="popupTabs" role="tablist">
-    <li class="nav-item" role="presentation">
-      <button class="nav-link active" id="extract-tab" data-bs-toggle="tab" data-bs-target="#extract" type="button" role="tab">
-        Extract
-      </button>
-    </li>
-    <li class="nav-item" role="presentation">
-      <button class="nav-link" id="history-tab" data-bs-toggle="tab" data-bs-target="#history" type="button" role="tab">
-        History
-      </button>
-    </li>
-  </ul>
+<body>
+  <main class="popup-shell">
+    <section class="brand-card">
+      <div class="brand-top">
+        <div class="brand-lockup">
+          <div class="brand-mark">
+            <img src="/icons/icon48.png" alt="All Links Extractor logo">
+          </div>
+          <div>
+            <span class="eyebrow">Link Intelligence</span>
+            <h1 class="brand-title">All Links Extractor</h1>
+          </div>
+        </div>
+        <div id="statusPill" class="status-pill">Ready</div>
+      </div>
 
-  <div class="tab-content" id="popupTabContent">
-    <div class="tab-pane fade show active" id="extract" role="tabpanel">
-      <div class="text-center">
-        <h5 class="my-2">🔗 All Links Extractor</h5>
-        <p>Total Links Found: <span id="linkCount" class="badge bg-secondary">0</span></p>
-        <div class="d-grid gap-2 mb-2">
-          <button id="extractLinks" class="btn btn-primary">Extract Links</button>
-          <button id="openResults" class="btn btn-success">View Extracted Links</button>
+      <div class="metric-board">
+        <div class="metric-card primary">
+          <span class="metric-label">Unique Links</span>
+          <span id="linkCount" class="metric-value">0</span>
+        </div>
+        <div class="metric-card">
+          <span class="metric-label">Domain</span>
+          <span id="sourceDomainValue" class="metric-value">None</span>
+        </div>
+        <div class="metric-card">
+          <span class="metric-label">Last Run</span>
+          <span id="lastExtractedValue" class="metric-value">Never</span>
         </div>
       </div>
-    </div>
+      <p id="sourceInfo" class="source-line">No page extracted yet.</p>
+    </section>
 
-    <div class="tab-pane fade" id="history" role="tabpanel">
-      <div>
-        <h6>History</h6>
-        <div id="historyContainer" class="mb-2" style="max-height: 150px; overflow-y: auto;"></div>
-        <button id="saveHistory" class="btn btn-sm btn-outline-secondary w-100 mb-2">💾 Save Current Links to History</button>
-        <button id="clearHistory" class="btn btn-sm btn-danger w-100">🗑 Clear History</button>
+    <section class="panel">
+      <div class="action-grid">
+        <button id="extractLinks" class="popup-action-button btn-accent" title="Extract and save all links from the current page." aria-label="Extract and save all links from the current page">Extract</button>
+        <button id="openResults" class="popup-action-button btn-quiet" title="Open the full audit page with filters, exports, reports, and health checks." aria-label="Open the full audit page">Open Audit</button>
       </div>
-    </div>
-  </div>
+      <div class="quick-grid">
+        <button id="extractAllTabs" class="quick-button" type="button" title="Extract links from every HTTP or HTTPS tab in this window." aria-label="Extract links from all open tabs">All Tabs</button>
+        <button id="extractSelection" class="quick-button" type="button" title="Extract links from the text currently selected on the page." aria-label="Extract links from selected text">Selection</button>
+        <button id="openHistory" class="quick-button" type="button" title="Open saved extraction sessions." aria-label="Open saved extraction history">History</button>
+        <button id="openSettings" class="quick-button" type="button" title="Change theme, defaults, and page behavior." aria-label="Open extension settings">Settings</button>
+      </div>
+      <div class="popup-link-row">
+        <button id="openPrivacy" class="popup-text-link" type="button">Privacy</button>
+        <button id="openFeedback" class="popup-text-link" type="button">Feedback</button>
+      </div>
+      <span class="setting-hint">History and Settings open in dedicated extension pages to keep this popup scroll-free.</span>
+    </section>
+  </main>
 
-  <div class="form-check form-switch mt-3 text-center">
-    <input class="form-check-input" type="checkbox" id="darkModeToggle">
-    <label class="form-check-label" for="darkModeToggle">🌙 Dark Mode</label>
-  </div>
-
-  <script src="js/bootstrap.bundle.min.js"></script>
+  <script src="/js/i18n.js"></script>
   <script src="/js/popup.js"></script>
 </body>
 </html>

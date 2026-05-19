@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Link Audit Settings</title>
+  <link href="/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+  <header class="app-header">
+    <div class="header-main">
+      <div class="header-copy">
+        <div class="page-title-lockup">
+          <img class="page-logo" src="/icons/icon48.png" alt="All Links Extractor logo">
+          <div>
+            <span class="header-kicker">Preferences</span>
+            <h1>Settings</h1>
+          </div>
+        </div>
+        <p class="source-summary">Control the popup, audit page, export defaults, and theme.</p>
+      </div>
+      <div class="header-actions">
+        <a class="btn btn-outline-secondary page-nav-link" href="/result.html" title="Open the current audit workspace." aria-label="Open audit page">Audit</a>
+        <a class="btn btn-outline-secondary page-nav-link" href="/history.html" title="Open saved extraction sessions." aria-label="Open saved extraction history">History</a>
+        <a class="btn btn-outline-secondary page-nav-link" href="/privacy.html" title="View privacy and permission details." aria-label="Open privacy and permissions page">Privacy</a>
+        <button id="resetSettings" class="btn btn-outline-secondary" title="Restore all settings to their default values." aria-label="Reset extension settings">Reset Settings</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="app-shell settings-page-shell">
+    <section class="settings-hero">
+      <div>
+        <span class="control-label">Workspace</span>
+        <h2>Make the extension feel like your tool.</h2>
+        <p>Theme, density, copy behavior, and export defaults are applied across popup, history, settings, and audit pages.</p>
+      </div>
+    </section>
+
+    <section class="settings-page-grid">
+      <div class="settings-panel">
+        <span class="settings-title">Theme</span>
+        <div class="segmented-control" id="themeOptions">
+          <button class="segment-option" data-theme-value="system" type="button" title="Use your system light or dark appearance.">System</button>
+          <button class="segment-option" data-theme-value="light" type="button" title="Use the light theme everywhere.">Light</button>
+          <button class="segment-option" data-theme-value="dark" type="button" title="Use the dark theme everywhere.">Dark</button>
+        </div>
+        <span class="settings-hint">The selected theme applies to the popup, audit page, history, and settings.</span>
+      </div>
+
+      <div class="settings-panel">
+        <span class="settings-title">Accent</span>
+        <div class="swatch-grid" id="accentOptions">
+          <button class="swatch-option" data-accent-value="teal" type="button" title="Use teal as the accent color.">Teal</button>
+          <button class="swatch-option" data-accent-value="indigo" type="button" title="Use indigo as the accent color.">Indigo</button>
+          <button class="swatch-option" data-accent-value="rose" type="button" title="Use rose as the accent color.">Rose</button>
+          <button class="swatch-option" data-accent-value="amber" type="button" title="Use amber as the accent color.">Amber</button>
+        </div>
+      </div>
+
+      <div class="settings-panel">
+        <span class="settings-title">Language</span>
+        <label>
+          <span class="control-label">Interface</span>
+          <select id="language" class="form-select" title="Choose the extension interface language.">
+            <option value="system">System</option>
+            <option value="en">English</option>
+            <option value="hi">हिन्दी</option>
+            <option value="es">Español</option>
+            <option value="fr">Français</option>
+            <option value="de">Deutsch</option>
+            <option value="pt_BR">Português</option>
+            <option value="ja">日本語</option>
+            <option value="ko">한국어</option>
+            <option value="zh_CN">中文</option>
+            <option value="ar">العربية</option>
+          </select>
+        </label>
+        <span class="settings-hint">Applies to common labels across popup, audit, history, settings, privacy, and feedback pages.</span>
+      </div>
+
+      <div class="settings-panel">
+        <span class="settings-title">Copy Defaults</span>
+        <div class="settings-field-grid">
+          <label>
+            <span class="control-label">Scope</span>
+            <select id="defaultCopyScope" class="form-select" title="Default link scope used by the audit page Copy button.">
+              <option value="selected">Selected links</option>
+              <option value="visible">Visible links</option>
+              <option value="all">All links</option>
+            </select>
+          </label>
+          <label>
+            <span class="control-label">Format</span>
+            <select id="defaultCopyFormat" class="form-select" title="Default format used by the audit page Copy button.">
+              <option value="plain">Plain URLs</option>
+              <option value="clean">Clean URLs</option>
+              <option value="markdown">Markdown links</option>
+              <option value="markdown-clean">Markdown clean links</option>
+              <option value="html">HTML anchors</option>
+              <option value="domains">Domains only</option>
+            </select>
+          </label>
+        </div>
+      </div>
+
+      <div class="settings-panel">
+        <span class="settings-title">Export Defaults</span>
+        <label>
+          <span class="control-label">Scope</span>
+          <select id="defaultExportScope" class="form-select" title="Default link scope used by export buttons.">
+            <option value="selected">Selected links</option>
+            <option value="visible">Visible links</option>
+            <option value="all">All links</option>
+          </select>
+        </label>
+      </div>
+
+      <div class="settings-panel settings-wide">
+        <span class="settings-title">Behavior</span>
+        <div class="toggle-grid">
+          <label class="setting-toggle form-check form-switch">
+            <span>
+              <strong>Open audit page after scan</strong>
+              <small>After extraction, open the full audit page automatically.</small>
+            </span>
+            <input id="autoOpenResults" class="form-check-input" type="checkbox">
+          </label>
+          <label class="setting-toggle form-check form-switch">
+            <span>
+              <strong>Save links from new tabs automatically</strong>
+              <small>When a supported tab finishes loading, extract its links in the background and save the session.</small>
+            </span>
+            <input id="autoCaptureTabs" class="form-check-input" type="checkbox" title="Extract links from supported tabs in the background without opening the popup.">
+          </label>
+          <label class="setting-toggle form-check form-switch">
+            <span>
+              <strong>Group audit results by domain</strong>
+              <small>Show links under each domain when the audit page opens.</small>
+            </span>
+            <input id="defaultGroupByDomain" class="form-check-input" type="checkbox">
+          </label>
+          <label class="setting-toggle form-check form-switch">
+            <span>
+              <strong>Use compact result rows</strong>
+              <small>Fit more links on screen by reducing row spacing.</small>
+            </span>
+            <input id="compactRows" class="form-check-input" type="checkbox">
+          </label>
+          <label class="setting-toggle form-check form-switch">
+            <span>
+              <strong>Show duplicate badges</strong>
+              <small>Show how many times each repeated URL appears.</small>
+            </span>
+            <input id="showOccurrences" class="form-check-input" type="checkbox">
+          </label>
+          <label class="setting-toggle form-check form-switch">
+            <span>
+              <strong>Show guidance tooltips</strong>
+              <small>Show short tips when you hover or focus a control.</small>
+            </span>
+            <input id="showTooltips" class="form-check-input" type="checkbox">
+          </label>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="/js/i18n.js"></script>
+  <script src="/js/settings.js"></script>
+</body>
+</html>

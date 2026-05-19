@@ -1,21 +1,380 @@
-
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Extracted Links</title>
+  <link href="/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-  <h2>All Extracted Links</h2>
-  <div class="mb-3 d-flex gap-2 flex-wrap">
-  <button id="selectAll" class="btn btn-secondary">Select All</button>
-  <button id="unselectAll" class="btn btn-outline-secondary">Unselect All</button>
-  <button id="copySelected" class="btn btn-info text-white">Copy Selected</button>
-  <button id="exportTxt" class="btn btn-dark">Export as .txt</button>
-  <button id="exportCsv" class="btn btn-warning">Export as .csv</button>
-</div>
-  <ul id="linkList"></ul>
+  <div id="pageLoader" class="page-loader d-none" role="status" aria-live="polite">
+    <div class="loader-card">
+      <div class="loader-mark" aria-hidden="true">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+      <div>
+        <strong>Preparing audit</strong>
+        <p id="pageLoaderText">Loading workspace...</p>
+      </div>
+    </div>
+  </div>
+
+  <header class="app-header">
+    <div class="header-main">
+      <div class="header-copy">
+        <div class="page-title-lockup">
+          <img class="page-logo" src="/icons/icon48.png" alt="All Links Extractor logo">
+          <div>
+            <span class="header-kicker">Link Intelligence</span>
+            <h1>Link Audit</h1>
+          </div>
+        </div>
+        <p id="sourceSummary" class="source-summary">Loading extracted links...</p>
+      </div>
+      <div class="header-actions">
+        <button id="selectVisible" class="btn btn-secondary" title="Select only the links currently visible after search and filters." aria-label="Select currently visible links">Select Visible</button>
+        <button id="clearSelection" class="btn btn-outline-secondary" title="Remove all selected links." aria-label="Clear selected links">Clear</button>
+        <button id="openSelectedLinks" class="btn btn-outline-secondary" title="Open selected HTTP and HTTPS links in background tabs." aria-label="Open selected links">Open Selected</button>
+        <button id="fetchVisiblePreviews" class="btn btn-outline-secondary" title="Fetch page titles and descriptions for visible HTTP links." aria-label="Fetch previews for visible links">Fetch Previews</button>
+        <button id="highlightOnPage" class="btn btn-outline-secondary" title="Highlight selected links on the original page. If none are selected, visible links are used." aria-label="Highlight links on the source page">Highlight Page</button>
+        <button id="extractAllTabs" class="btn btn-secondary" title="Extract links from every HTTP or HTTPS tab in the current window." aria-label="Extract links from all open tabs">Extract All Tabs</button>
+        <a class="btn btn-outline-secondary page-nav-link" href="/history.html" title="Open saved extraction sessions." aria-label="Open saved extraction history">History</a>
+        <a class="btn btn-outline-secondary page-nav-link" href="/settings.html" title="Change theme, defaults, and page behavior." aria-label="Open extension settings">Settings</a>
+        <a class="btn btn-outline-secondary page-nav-link" href="/feedback.html" title="Send feedback or request improvements." aria-label="Open feedback page">Feedback</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="app-shell audit-shell">
+    <aside class="toolbar audit-sidebar" aria-label="Link controls">
+      <div class="control-section search-row">
+        <label class="control-label" for="searchInput">Search</label>
+        <input id="searchInput" class="form-control" type="search" placeholder="URL, text, domain, type" title="Search across URL, anchor text, domain, link type, and source.">
+      </div>
+
+      <div class="control-section">
+        <span class="control-label">Type</span>
+        <div id="typeFilters" class="filter-pills compact-pills" aria-label="Link type filters">
+          <button class="filter-pill active" data-type="all">All</button>
+          <button class="filter-pill" data-type="web">Web</button>
+          <button class="filter-pill" data-type="pdf">PDF</button>
+          <button class="filter-pill" data-type="email">Email</button>
+          <button class="filter-pill" data-type="phone">Phone</button>
+          <button class="filter-pill" data-type="image">Image</button>
+          <button class="filter-pill" data-type="video">Video</button>
+          <button class="filter-pill" data-type="audio">Audio</button>
+          <button class="filter-pill" data-type="social">Social</button>
+          <button class="filter-pill" data-type="download">Download</button>
+        </div>
+      </div>
+
+      <div class="control-section filter-row sidebar-row">
+        <div class="scope-control">
+          <label class="control-label" for="scopeFilter">Scope</label>
+          <select id="scopeFilter" class="form-select" title="Filter links by whether they belong to the same site or another site.">
+            <option value="all">All scopes</option>
+            <option value="internal">Internal</option>
+            <option value="subdomain">Subdomain</option>
+            <option value="external">External</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+
+        <label class="form-check group-toggle">
+          <input id="groupByDomain" class="form-check-input" type="checkbox" title="Group result rows under their domain names.">
+          <span class="form-check-label">Group by domain</span>
+        </label>
+      </div>
+
+      <div class="control-section advanced-filter-grid sidebar-filter-grid">
+        <label>
+          <span class="control-label">Domain</span>
+          <input id="domainFilter" class="form-control" type="search" placeholder="example.com" title="Show only links whose domain contains this text.">
+        </label>
+        <label>
+          <span class="control-label">Extension</span>
+          <input id="extensionFilter" class="form-control" type="search" placeholder=".pdf" title="Show only links with this file extension, such as .pdf or .jpg.">
+        </label>
+        <label>
+          <span class="control-label">Rel</span>
+          <select id="relFilter" class="form-select" title="Filter by link rel attributes such as nofollow, sponsored, or ugc.">
+            <option value="all">All rel values</option>
+            <option value="dofollow">Dofollow</option>
+            <option value="nofollow">Nofollow</option>
+            <option value="sponsored">Sponsored</option>
+            <option value="ugc">UGC</option>
+          </select>
+        </label>
+        <label>
+          <span class="control-label">Category</span>
+          <select id="categoryFilter" class="form-select" title="Filter by detected categories such as media, downloads, tracking, hidden, or empty anchors.">
+            <option value="all">All categories</option>
+            <option value="media">Media</option>
+            <option value="download">Download</option>
+            <option value="tracking">Tracking</option>
+            <option value="cleanable">Cleanable URL</option>
+            <option value="affiliate">Affiliate</option>
+            <option value="hidden">Hidden</option>
+            <option value="empty-anchor">Empty anchor</option>
+          </select>
+        </label>
+        <label>
+          <span class="control-label">Query</span>
+          <select id="queryFilter" class="form-select" title="Filter URLs by whether they contain query parameters.">
+            <option value="all">All URLs</option>
+            <option value="with-query">With query</option>
+            <option value="without-query">Without query</option>
+          </select>
+        </label>
+        <label>
+          <span class="control-label">Length</span>
+          <select id="urlLengthFilter" class="form-select" title="Filter by URL length. Long URLs often contain tracking or complex parameters.">
+            <option value="all">Any length</option>
+            <option value="short">Short (&lt; 80)</option>
+            <option value="medium">Medium (80-160)</option>
+            <option value="long">Long (&gt; 160)</option>
+          </select>
+        </label>
+        <label>
+          <span class="control-label">Regex</span>
+          <input id="regexFilter" class="form-control" type="search" placeholder="Optional" title="Use a regular expression to match URL or anchor text.">
+        </label>
+        <label>
+          <span class="control-label">Sort</span>
+          <select id="sortBy" class="form-select" title="Choose how result rows are sorted.">
+            <option value="url">URL</option>
+            <option value="domain">Domain</option>
+            <option value="type">Type</option>
+            <option value="scope">Scope</option>
+            <option value="health">Health</option>
+            <option value="anchor">Anchor text</option>
+            <option value="length">URL length</option>
+            <option value="occurrences">Occurrences</option>
+            <option value="responseTime">Response time</option>
+          </select>
+        </label>
+      </div>
+
+      <div class="control-section health-row sidebar-card">
+        <div>
+          <label class="control-label" for="healthFilter">Health</label>
+          <select id="healthFilter" class="form-select" title="Show links by their last health-check result.">
+            <option value="all">All health states</option>
+            <option value="unchecked">Unchecked</option>
+            <option value="healthy">Healthy</option>
+            <option value="redirect">Redirect</option>
+            <option value="broken">Broken</option>
+            <option value="error">Error / timeout</option>
+            <option value="skipped">Skipped</option>
+          </select>
+        </div>
+        <div class="sidebar-actions">
+          <button id="checkVisibleLinks" class="btn btn-secondary action-button" title="Check HTTP status for the currently visible links." aria-label="Check visible links">Check Visible</button>
+          <button id="checkSelectedLinks" class="btn btn-outline-secondary action-button" title="Check HTTP status only for selected links." aria-label="Check selected links">Check Selected</button>
+        </div>
+        <div id="healthProgress" class="health-progress" role="status">Health checks not started.</div>
+      </div>
+
+      <div class="control-section crawl-panel">
+        <div class="crawl-heading">
+          <div>
+            <span class="control-label">Crawler</span>
+            <strong>Deep scan</strong>
+          </div>
+          <button id="cleanUrls" class="btn btn-outline-secondary action-button" title="Remove common tracking parameters and merge duplicate cleaned URLs." aria-label="Clean tracking parameters from URLs">Clean URLs</button>
+        </div>
+        <div class="crawl-grid sidebar-crawl-grid">
+          <label>
+            <span class="control-label">Depth</span>
+            <input id="crawlDepth" class="form-control" type="number" min="0" max="3" value="1" title="How many levels of internal pages to crawl from the source page.">
+          </label>
+          <label>
+            <span class="control-label">Limit</span>
+            <input id="crawlLimit" class="form-control" type="number" min="1" max="200" value="25" title="Maximum number of pages to crawl in this run.">
+          </label>
+          <label class="form-check group-toggle crawl-toggle">
+            <input id="crawlSameDomain" class="form-check-input" type="checkbox" checked title="Keep crawling within the same root domain.">
+            <span class="form-check-label">Same domain</span>
+          </label>
+          <label class="form-check group-toggle crawl-toggle">
+            <input id="crawlSitemap" class="form-check-input" type="checkbox" title="Include sitemap.xml URLs as crawl starting points when available.">
+            <span class="form-check-label">Sitemap</span>
+          </label>
+          <button id="startCrawl" class="btn btn-secondary action-button" title="Start crawling linked pages from the source URL." aria-label="Start crawl">Start</button>
+          <button id="stopCrawl" class="btn btn-outline-danger action-button" disabled title="Stop the crawl after the current page finishes." aria-label="Stop crawl">Stop</button>
+        </div>
+        <div id="crawlProgress" class="crawl-progress" role="status">Crawler is ready.</div>
+      </div>
+
+      <div class="control-section output-row sidebar-output">
+        <label>
+          <span class="control-label">Copy</span>
+          <select id="copyScope" class="form-select" title="Choose which links will be copied.">
+            <option value="selected">Selected links</option>
+            <option value="visible">Visible links</option>
+            <option value="all">All links</option>
+          </select>
+        </label>
+        <label>
+          <span class="control-label">Format</span>
+          <select id="copyFormat" class="form-select" title="Choose how copied links should be formatted.">
+            <option value="plain">Plain URLs</option>
+            <option value="clean">Clean URLs</option>
+            <option value="markdown">Markdown links</option>
+            <option value="markdown-clean">Markdown clean links</option>
+            <option value="html">HTML anchors</option>
+            <option value="domains">Domains only</option>
+          </select>
+        </label>
+        <button id="copyLinks" class="btn btn-info text-white action-button" title="Copy links using the selected scope and format." aria-label="Copy links">Copy</button>
+
+        <label>
+          <span class="control-label">Export</span>
+          <select id="exportScope" class="form-select" title="Choose which links should be included in exports.">
+            <option value="selected">Selected links</option>
+            <option value="visible">Visible links</option>
+            <option value="all">All links</option>
+          </select>
+        </label>
+        <label>
+          <span class="control-label">Filename</span>
+          <input id="fileName" class="form-control" type="text" value="links" title="Base filename used when downloading exports.">
+        </label>
+        <div class="export-button-grid">
+          <button id="exportTxt" class="btn btn-dark action-button" title="Download selected export scope as a plain text URL list." aria-label="Export links as TXT">TXT</button>
+          <button id="exportCsv" class="btn btn-warning action-button" title="Download selected export scope as a spreadsheet-friendly CSV file." aria-label="Export links as CSV">CSV</button>
+          <button id="exportExcel" class="btn btn-outline-secondary action-button" title="Download selected export scope as an Excel-compatible file." aria-label="Export links as Excel">Excel</button>
+          <button id="exportMarkdown" class="btn btn-outline-secondary action-button" title="Download selected export scope as Markdown with clean URL data." aria-label="Export links as Markdown">MD</button>
+          <button id="exportJson" class="btn btn-success action-button" title="Download selected export scope as structured JSON data." aria-label="Export links as JSON">JSON</button>
+        </div>
+      </div>
+    </aside>
+
+    <section class="audit-workspace">
+      <section class="stats-grid" aria-label="Link summary">
+        <div class="stat-tile stat-primary">
+          <span>Total Found</span>
+          <strong id="statTotal">0</strong>
+        </div>
+        <div class="stat-tile">
+          <span>Unique</span>
+          <strong id="statUnique">0</strong>
+        </div>
+        <div class="stat-tile">
+          <span>Internal</span>
+          <strong id="statInternal">0</strong>
+        </div>
+        <div class="stat-tile">
+          <span>External</span>
+          <strong id="statExternal">0</strong>
+        </div>
+        <div class="stat-tile">
+          <span>PDFs</span>
+          <strong id="statPdf">0</strong>
+        </div>
+        <div class="stat-tile">
+          <span>Duplicates</span>
+          <strong id="statDuplicates">0</strong>
+        </div>
+        <div class="stat-tile">
+          <span>Cleanable</span>
+          <strong id="statCleanable">0</strong>
+        </div>
+        <div class="stat-tile">
+          <span>Healthy</span>
+          <strong id="statHealthy">0</strong>
+        </div>
+        <div class="stat-tile">
+          <span>Redirects</span>
+          <strong id="statRedirects">0</strong>
+        </div>
+        <div class="stat-tile">
+          <span>Broken</span>
+          <strong id="statBroken">0</strong>
+        </div>
+        <div class="stat-tile">
+          <span>Nofollow</span>
+          <strong id="statNofollow">0</strong>
+        </div>
+        <div class="stat-tile">
+          <span>Sponsored / UGC</span>
+          <strong id="statSponsoredUgc">0</strong>
+        </div>
+        <div class="stat-tile">
+          <span>Empty Anchors</span>
+          <strong id="statEmptyAnchors">0</strong>
+        </div>
+      </section>
+
+      <section class="analytics-panel" aria-label="Analytics dashboard">
+        <div class="analytics-heading">
+          <div>
+            <span class="control-label">Analytics</span>
+            <strong>Audit dashboard</strong>
+          </div>
+          <div class="analytics-actions">
+            <button id="exportHtmlReport" class="btn btn-secondary action-button" title="Download a readable HTML audit report for the selected export scope." aria-label="Export HTML audit report">HTML Report</button>
+            <button id="exportBrokenReport" class="btn btn-outline-danger action-button" title="Download an HTML report containing only broken or errored links." aria-label="Export broken link report">Broken Report</button>
+          </div>
+        </div>
+        <div class="analytics-grid">
+          <div class="analytics-card ratio-card">
+            <span class="control-label">Internal / External</span>
+            <div class="scope-chart-wrap">
+              <div id="scopeDonut" class="scope-donut" aria-hidden="true">
+                <span id="scopeDonutTotal" class="scope-donut-total">0</span>
+              </div>
+            </div>
+            <strong id="scopeDonutLabel">No links yet</strong>
+            <div id="scopeLegend" class="scope-legend" aria-label="Internal and external link breakdown"></div>
+          </div>
+          <div class="analytics-card">
+            <span class="control-label">Top Domains</span>
+            <div id="topDomains" class="analytics-list"></div>
+          </div>
+          <div class="analytics-card">
+            <span class="control-label">Link Types</span>
+            <div id="typeBreakdown" class="analytics-list"></div>
+          </div>
+          <div class="analytics-card">
+            <span class="control-label">Health Breakdown</span>
+            <div id="healthBreakdown" class="analytics-list"></div>
+          </div>
+        </div>
+        <div class="analytics-card site-map-card">
+          <span class="control-label">Website Map</span>
+          <div id="siteMap" class="site-map"></div>
+        </div>
+      </section>
+
+      <section class="results-panel">
+        <div class="results-panel-top">
+          <div>
+            <span class="control-label">Results</span>
+            <div id="resultSummary" class="result-summary">No links loaded.</div>
+          </div>
+        </div>
+        <div id="emptyState" class="empty-state-card d-none" role="status">
+          <strong>No links loaded yet.</strong>
+          <span>Open any website, click the extension icon, then press Extract. This page will show filters, exports, reports, and health checks.</span>
+          <div class="empty-state-actions">
+            <a class="btn btn-secondary" href="/settings.html" title="Set default copy/export behavior and theme.">Set Defaults</a>
+            <a class="btn btn-outline-secondary" href="/privacy.html" title="See what data stays local and why permissions are used.">Privacy & Permissions</a>
+          </div>
+        </div>
+        <div id="linkGroups" class="link-groups"></div>
+      </section>
+    </section>
+  </main>
+
+  <button id="backToTop" class="back-to-top" type="button" title="Back to top" aria-label="Back to top">
+    <span aria-hidden="true">↑</span>
+  </button>
+
+  <script src="/js/i18n.js"></script>
   <script src="/js/result.js"></script>
-  <!-- result -->
 </body>
 </html>

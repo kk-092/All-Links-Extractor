@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Privacy & Permissions</title>
+  <link href="/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+  <header class="app-header">
+    <div class="header-main">
+      <div class="header-copy">
+        <div class="page-title-lockup">
+          <img class="page-logo" src="/icons/icon48.png" alt="All Links Extractor logo">
+          <div>
+            <span class="header-kicker">Trust Center</span>
+            <h1>Privacy & Permissions</h1>
+          </div>
+        </div>
+        <p class="source-summary">How All Links Extractor handles data and why each permission is needed.</p>
+      </div>
+      <div class="header-actions">
+        <a class="btn btn-outline-secondary page-nav-link" href="/result.html">Audit</a>
+        <a class="btn btn-outline-secondary page-nav-link" href="/history.html">History</a>
+        <a class="btn btn-outline-secondary page-nav-link" href="/settings.html">Settings</a>
+        <a class="btn btn-outline-secondary page-nav-link" href="/feedback.html">Feedback</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="app-shell trust-shell">
+    <section class="trust-hero trust-hero-split">
+      <div>
+        <span class="control-label">Privacy First</span>
+        <h2>Your link audits stay local by default.</h2>
+        <p>All Links Extractor is built for SEO work without accounts, dashboards, or hidden data collection.</p>
+      </div>
+      <div class="trust-summary-card" aria-label="Privacy summary">
+        <span>Local storage</span>
+        <strong>No sign-in</strong>
+        <small>History, settings, health results, and previews are stored in Chrome extension storage.</small>
+      </div>
+    </section>
+
+    <section class="trust-grid">
+      <article class="trust-card">
+        <span class="trust-icon" aria-hidden="true">01</span>
+        <span class="settings-title">Data Stored Locally</span>
+        <p>Extracted links, source page details, history sessions, theme preferences, cached health results, and cached previews are saved with Chrome extension storage.</p>
+      </article>
+      <article class="trust-card">
+        <span class="trust-icon" aria-hidden="true">02</span>
+        <span class="settings-title">Downloads</span>
+        <p>Export buttons create files on your device, such as TXT, CSV, Excel-compatible files, JSON, and HTML reports.</p>
+      </article>
+      <article class="trust-card">
+        <span class="trust-icon" aria-hidden="true">03</span>
+        <span class="settings-title">Network Requests</span>
+        <p>Health checks and previews request selected URLs so the extension can detect statuses, redirects, titles, and descriptions.</p>
+      </article>
+      <article class="trust-card">
+        <span class="trust-icon" aria-hidden="true">04</span>
+        <span class="settings-title">No Account Required</span>
+        <p>The extension does not need a user account to extract, save, filter, or export links.</p>
+      </article>
+    </section>
+
+    <section class="settings-panel settings-wide permission-panel">
+      <div class="section-heading-row">
+        <div>
+          <span class="control-label">Chrome Access</span>
+          <span class="settings-title">Permission Explanation</span>
+        </div>
+        <span class="soft-badge">Used only for link audit features</span>
+      </div>
+      <div class="permission-list">
+        <div><strong>scripting</strong><span>Runs the extractor script on the current webpage when you choose to scan.</span></div>
+        <div><strong>activeTab</strong><span>Lets the extension work with the tab you are currently using.</span></div>
+        <div><strong>downloads</strong><span>Allows TXT, CSV, Excel, JSON, and HTML report exports.</span></div>
+        <div><strong>storage</strong><span>Saves history, settings, health checks, and cached previews locally.</span></div>
+        <div><strong>tabs</strong><span>Supports opening the audit workspace, extracting all tabs, and highlighting links on the source tab.</span></div>
+        <div><strong>contextMenus</strong><span>Adds the right-click extraction shortcut.</span></div>
+        <div><strong>host access</strong><span>Allows extraction and audits across websites the user chooses to scan.</span></div>
+      </div>
+    </section>
+  </main>
+  <script src="/js/i18n.js"></script>
+  <script src="/js/page-theme.js"></script>
+</body>
+</html>

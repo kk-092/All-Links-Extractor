@@ -1,0 +1,17 @@
+{
+  "appName": {
+    "message": "All Links Extractor - SEO Link Audit Tool"
+  },
+  "appDescription": {
+    "message": "为 SEO 提取、审计、检查、抓取、保存并导出链接，支持筛选、历史和报告。"
+  },
+  "commandExtractCurrentTab": {
+    "message": "从当前标签页提取链接"
+  },
+  "commandOpenAudit": {
+    "message": "打开链接审计页面"
+  },
+  "commandExtractSelectedText": {
+    "message": "从所选文本中提取链接"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "appName": {
+    "message": "All Links Extractor - SEO Link Audit Tool"
+  },
+  "appDescription": {
+    "message": "SEO용 링크를 추출, 감사, 확인, 크롤링, 저장하고 보고서와 함께 내보냅니다."
+  },
+  "commandExtractCurrentTab": {
+    "message": "현재 탭에서 링크 추출"
+  },
+  "commandOpenAudit": {
+    "message": "링크 감사 페이지 열기"
+  },
+  "commandExtractSelectedText": {
+    "message": "선택한 텍스트에서 링크 추출"
+  }
+}

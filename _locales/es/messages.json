@@ -1,0 +1,17 @@
+{
+  "appName": {
+    "message": "All Links Extractor - SEO Link Audit Tool"
+  },
+  "appDescription": {
+    "message": "Extrae, audita, revisa, rastrea, guarda y exporta enlaces para SEO con filtros, historial e informes."
+  },
+  "commandExtractCurrentTab": {
+    "message": "Extraer enlaces de la pestaña actual"
+  },
+  "commandOpenAudit": {
+    "message": "Abrir la página de auditoría de enlaces"
+  },
+  "commandExtractSelectedText": {
+    "message": "Extraer enlaces del texto seleccionado"
+  }
+}

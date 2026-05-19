@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-label="All Links Extractor logo">
+  <rect width="128" height="128" rx="28" fill="#101820"/>
+  <rect x="10" y="10" width="108" height="108" rx="22" fill="#152331"/>
+  <path d="M38 69c-8.3-8.3-8.3-21.7 0-30l10-10c8.3-8.3 21.7-8.3 30 0 2.3 2.3 2.3 6.1 0 8.5s-6.1 2.3-8.5 0c-3.6-3.6-9.4-3.6-13 0l-10 10c-3.6 3.6-3.6 9.4 0 13 2.3 2.3 2.3 6.1 0 8.5s-6.1 2.3-8.5 0Z" fill="#2DD4BF"/>
+  <path d="M50 99c-8.3-8.3-8.3-21.7 0-30l10-10c8.3-8.3 21.7-8.3 30 0 2.3 2.3 2.3 6.1 0 8.5s-6.1 2.3-8.5 0c-3.6-3.6-9.4-3.6-13 0l-10 10c-3.6 3.6-3.6 9.4 0 13 2.3 2.3 2.3 6.1 0 8.5s-6.1 2.3-8.5 0Z" fill="#6366F1" transform="rotate(180 64 64)"/>
+  <path d="M52 70 76 46" stroke="#F8FAFC" stroke-width="10" stroke-linecap="round"/>
+  <path d="M26 104h76" stroke="#2DD4BF" stroke-width="7" stroke-linecap="round"/>
+  <path d="M78 26h24" stroke="#6366F1" stroke-width="7" stroke-linecap="round"/>
+</svg>
