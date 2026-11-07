@@ -89,12 +89,13 @@
 <body>
   <main>
     <h1>Privacy Policy for All Links Extractor</h1>
-    <p class="updated">Last updated: May 19, 2026</p>
+    <p class="updated">Last updated: November 7, 2026</p>
 
     <p>All Links Extractor is a Chrome extension that helps users extract, audit, organize, save, and export links from web pages, selected text, embedded page assets, and open browser tabs.</p>
+    <p>This policy covers the Chrome extension. You can use its features without creating an account.</p>
 
     <h2>Data We Handle</h2>
-    <p>The extension may process website content from pages the user chooses to scan. This can include:</p>
+    <p>The extension processes content from pages you scan and from supported tabs when you enable optional auto-capture. Auto-capture is off by default. Data the extension may process includes:</p>
     <ul>
       <li>Page links and URLs</li>
       <li>Anchor text</li>
@@ -102,10 +103,11 @@
       <li>Image, video, audio, document, iframe, canonical, and hreflang URLs</li>
       <li>Selected text when the user chooses selected-text extraction</li>
       <li>Link audit metadata such as link type, domain, duplicate count, health status, and preview information</li>
+      <li>Sitemap URLs and metadata from online sitemaps, pasted XML, or files you select</li>
     </ul>
 
     <h2>How Data Is Used</h2>
-    <p>This data is used only to provide the extension's core features:</p>
+    <p>The extension uses this data to provide features such as:</p>
     <ul>
       <li>Extracting links from pages</li>
       <li>Showing link audit results</li>
@@ -114,23 +116,29 @@
       <li>Exporting links and reports</li>
       <li>Checking link health when requested</li>
       <li>Fetching page previews when requested</li>
+      <li>Discovering, reading, filtering, and exporting sitemaps</li>
+      <li>Comparing saved extraction sessions</li>
       <li>Highlighting extracted links on the source page</li>
       <li>Supporting optional auto-capture if the user enables it</li>
     </ul>
 
     <h2>Data Storage</h2>
-    <p>All extracted links, history, settings, themes, previews, and audit data are stored locally in the user's browser using Chrome extension storage.</p>
+    <p>The extension saves extracted links, history, settings, cached previews, and saved audit data in local Chrome extension storage. Exported files are saved through Chrome's downloads feature.</p>
+    <p>The extension stores a local count of successful manual scans and whether it has already shown the optional review and support prompts. It uses this information to show each prompt once in the Audit dashboard. It does not send the count or prompt state to us or to the sites linked in the prompts.</p>
     <p>We do not operate a server for collecting extension data.</p>
 
     <h2>Data Sharing</h2>
-    <p>We do not sell, rent, trade, or share user data with third parties.</p>
-    <p>The extension does not use user data for advertising, tracking, profiling, or analytics.</p>
+    <p>We do not sell, rent, or trade user data. The extension does not send extracted data to a developer-operated server or use it for advertising, profiling, or remote analytics.</p>
 
     <h2>Network Requests</h2>
-    <p>When the user runs link health checks, fetches previews, or uses crawling or audit features, the extension may send requests from the user's browser to the URLs being checked. These requests are used only to perform the requested link audit feature.</p>
+    <p>When you run link health checks, fetch previews, crawl pages, or discover or read online sitemaps, the extension sends requests directly from your browser to the relevant websites. Sitemap discovery may request robots.txt and common sitemap locations, and online sitemap reading may fetch child sitemaps. Receiving sites can see ordinary request information such as your IP address and the requested URL.</p>
+    <p>The extension processes pasted sitemap XML and imported sitemap files locally. Importing a local sitemap index does not automatically fetch its child URLs.</p>
+
+    <h2>Reviews, Support, and Feedback</h2>
+    <p>If you choose to leave a review, support development, or submit feedback on GitHub, the corresponding third-party site opens in your browser. The extension does not send your scan results with those links. Information you choose to submit is handled by the Chrome Web Store, Buy Me a Coffee, or GitHub under its own privacy practices. GitHub issues in the linked repository are public.</p>
 
     <h2>Remote Code</h2>
-    <p>All JavaScript, CSS, HTML, icons, and localization files are packaged inside the extension. The extension does not download or execute remote JavaScript code.</p>
+    <p>All JavaScript, CSS, HTML, and icons are packaged inside the extension. The extension does not download or execute remote JavaScript code.</p>
 
     <h2>Permissions</h2>
     <p>The extension requests permissions only for its stated functionality:</p>
@@ -148,7 +156,7 @@
     <p>The use of information received from Chrome APIs will adhere to the Chrome Web Store User Data Policy, including the Limited Use requirements.</p>
 
     <h2>User Control</h2>
-    <p>Users can clear saved history from the extension's History page. Users can also disable optional features such as auto-capture and helpful tooltips from the Settings page.</p>
+    <p>You can delete individual extraction sessions or clear saved history from the History page, and turn off auto-capture in Settings. Removing the extension clears its local extension storage. You can manage exported files separately on your device.</p>
 
     <h2>Contact</h2>
     <p>For questions, support, or privacy requests, please use the GitHub repository issues page:</p>
